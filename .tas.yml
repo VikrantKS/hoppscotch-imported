@@ -1,0 +1,66 @@
+postMerge :
+  preRun: 
+    command:
+      
+      - cp ./packages/hoppscotch-app/.env.example ./packages/hoppscotch-app/.env
+      - pnpm install --shamefully-hoist=true 
+  
+  subModules:          #Not to be changed
+      
+      - name: hoppscotch-app      
+        path : "./packages/hoppscotch-app/"
+        pattern: 
+          - "./**/__tests__/**/*.spec.js"
+        
+        framework : jest
+        
+            
+        postRun:
+            command:
+              - node --version 
+        configFile : "./jest.config.js"
+      
+        
+        
+        
+preMerge : 
+  
+  subModules:          #Not to be changed
+      - name: hoppscotch-cli      #Can be changed
+        path : "./"
+        pattern: 
+          - "./packages/hoppscotch-cli/src/__tests__/**/*.*.ts"
+        
+        framework : jest
+        postRun:
+            command:
+              - node --version
+        
+      - name: hoppscotch-js-sandbox       
+        path : "./"
+        pattern: 
+          - "./packages/hoppscotch-js-sandbox/src/__tests__/**/*.*.ts"
+        
+        framework : jest
+          
+        postRun:
+            command:
+              - node --version
+        configFile : "./packages/hoppscotch-js-sandbox/jest.config.js"
+        
+      - name: hoppscotch-app      
+        path : "./"
+        pattern: 
+          - "./packages/hoppscotch-app/src/__tests__/**/*.*.ts"
+        
+        framework : jest
+        
+          
+        postRun:
+            command:
+              - node --version
+        configFile : "./packages/hoppscotch-app/jest.config.js"
+        
+  
+version : 2.0
+nodeVersion: 16.15.0
